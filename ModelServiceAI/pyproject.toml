@@ -8,7 +8,10 @@ dependencies = [
     "cv>=1.0.0",
     "dishka>=1.8.0",
     "fastapi>=0.129.0",
+    "httpx>=0.28.1",
     "logger>=1.4",
+    "pytest>=9.0.2",
     "ultralytics>=8.4.14",
     "uvicorn>=0.40.0",
+    "websockets>=16.0",
 ]
