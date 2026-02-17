@@ -11,6 +11,7 @@ class SQLAlchemyUserRepository(AbstractUserRepository):
         self.session = session
 
     async def create(self, user: DomainUser) -> DomainUser:
+        """Create user"""
         db_user = UserORM(
             name=user.name,
             email=user.email,
@@ -24,17 +25,20 @@ class SQLAlchemyUserRepository(AbstractUserRepository):
         return user
 
     async def get_by_id(self, user_id: int) -> Optional[DomainUser]:
+        """Get User by id"""
         query = select(UserORM).where(UserORM.id == user_id)
         result = await self.session.execute(query)
         row = result.scalar_one_or_none()
         return self._to_domain(row) if row else None
 
     async def get_all(self, limit: int = 10, offset: int = 0) -> List[DomainUser]:
+        """Get all users with limit"""
         query = select(UserORM).limit(limit).offset(offset)
         result = await self.session.execute(query)
         return [self._to_domain(row) for row in result.scalars()]
 
     async def update(self, user: DomainUser) -> DomainUser:
+        """Update user """
         stmt = (
             update(UserORM)
             .where(UserORM.id == user.id)
@@ -50,10 +54,12 @@ class SQLAlchemyUserRepository(AbstractUserRepository):
         return user
 
     async def delete(self, user_id: int) -> None:
+        """Delete User"""
         stmt = delete(UserORM).where(UserORM.id == user_id)
         await self.session.execute(stmt)
 
     def _to_domain(self, orm_user: UserORM) -> DomainUser:
+        """Convert User"""
         return DomainUser(
             id=orm_user.id,
             name=orm_user.name,

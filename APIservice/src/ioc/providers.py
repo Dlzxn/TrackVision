@@ -1,10 +1,10 @@
 from typing import AsyncIterable
 
 from dishka import Provider, Scope, provide
-from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine, AsyncEngine
 
 from src.domain.interfaces.user_repository import AbstractUserRepository
-from src.infrastructure.repositories.user_repository import SQLAlchemyUserRepository
+from src.infrastructure.repositories.user_repo import SQLAlchemyUserRepository
 
 class AppProvider(Provider):
     scope = Scope.REQUEST
@@ -15,7 +15,7 @@ class AppProvider(Provider):
         self.session_factory = async_sessionmaker(self.engine, expire_on_commit=False)
 
     @provide(scope=Scope.APP)
-    def get_engine(self):
+    def get_engine(self) -> AsyncEngine:
         return self.engine
 
     @provide
