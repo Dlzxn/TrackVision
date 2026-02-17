@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackVision - Панель управления</title>
+    <link rel="stylesheet" href="static/css/base.css?v1.0.3">
+</head>
+<body>
+    <div class="surveillance-grid"></div>
+    <div class="scan-line"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-background">
+            <canvas id="particleCanvas"></canvas>
+        </div>
+
+        <div class="nav-container">
+            <!-- Logo Section -->
+            <a href="#" class="nav-logo" id="navLogo">
+                <svg width="32" height="32" viewBox="0 0 40 40">
+                    <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="20" cy="20" r="12" fill="none" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="20" cy="20" r="6" fill="currentColor"/>
+                    <line x1="20" y1="2" x2="20" y2="8" stroke="currentColor" stroke-width="2"/>
+                    <line x1="38" y1="20" x2="32" y2="20" stroke="currentColor" stroke-width="2"/>
+                    <line x1="20" y1="38" x2="20" y2="32" stroke="currentColor" stroke-width="2"/>
+                    <line x1="2" y1="20" x2="8" y2="20" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                <span>TrackVision</span>
+            </a>
+
+            <!-- Solutions Menu -->
+            <div class="nav-actions">
+                <button class="solutions-btn" id="solutionsBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12"/>
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <line x1="3" y1="18" x2="21" y2="18"/>
+                    </svg>
+                    <span>Решения</span>
+                </button>
+
+                <!-- Solutions Dropdown -->
+                <div class="solutions-dropdown" id="solutionsDropdown">
+                    <ul class="solutions-menu">
+                        <li>
+                            <a href="#traffic" class="solution-item" data-solution="traffic">
+                                <div class="solution-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                                        <circle cx="12" cy="8" r="2"/>
+                                        <circle cx="12" cy="16" r="2"/>
+                                    </svg>
+                                </div>
+                                <div class="solution-info">
+                                    <div class="solution-title">Камера трафика</div>
+                                    <div class="solution-desc">Анализ транспортных потоков</div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#restricted" class="solution-item" data-solution="restricted">
+                                <div class="solution-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+                                    </svg>
+                                </div>
+                                <div class="solution-info">
+                                    <div class="solution-title">Закрытые зоны</div>
+                                    <div class="solution-desc">Контроль доступа к территориям</div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#parking" class="solution-item" data-solution="parking">
+                                <div class="solution-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="4" y="4" width="16" height="16" rx="2"/>
+                                        <path d="M9 9h3a3 3 0 0 1 0 6H9V9z"/>
+                                    </svg>
+                                </div>
+                                <div class="solution-info">
+                                    <div class="solution-title">Управление парковкой</div>
+                                    <div class="solution-desc">Автоматизация парковочных мест</div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#license" class="solution-item" data-solution="license">
+                                <div class="solution-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="2" y="7" width="20" height="10" rx="2"/>
+                                        <path d="M7 12h10"/>
+                                    </svg>
+                                </div>
+                                <div class="solution-info">
+                                    <div class="solution-title">Скан номеров</div>
+                                    <div class="solution-desc">Распознавание автомобильных номеров</div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Profile Section -->
+            <div class="profile-section">
+                <button class="profile-btn" id="profileBtn">
+                    <div class="avatar">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                    </div>
+                    <span class="profile-name">Admin</span>
+                    <svg class="dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </button>
+
+                <!-- Profile Dropdown -->
+                <div class="profile-dropdown" id="profileDropdown">
+                    <div class="dropdown-header">
+                        <div class="dropdown-avatar">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                        <div class="dropdown-info">
+                            <div class="dropdown-name">Administrator</div>
+                            <div class="dropdown-email">admin@trackvision.io</div>
+                        </div>
+                    </div>
+
+                    <div class="dropdown-divider"></div>
+
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#" class="dropdown-item" data-action="profile">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                                <span>Профиль</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="dropdown-item" data-action="settings">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="3"/>
+                                    <path d="M12 1v6m0 6v6M6 6l4.24 4.24M13.76 13.76L18 18M6 18l4.24-4.24M13.76 10.24L18 6"/>
+                                </svg>
+                                <span>Настройки</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="dropdown-item logout" data-action="logout">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                                    <polyline points="16 17 21 12 16 7"/>
+                                    <line x1="21" y1="12" x2="9" y2="12"/>
+                                </svg>
+                                <span>Выход</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-glow"></div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <div class="content-wrapper">
+            <div class="hero-section">
+                <h1 class="hero-title">Автоматизация видеоаналитики</h1>
+                <p class="hero-subtitle">Умные решения для вашего бизнеса</p>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                                <line x1="12" y1="22.08" x2="12" y2="12"/>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">AI-анализ</div>
+                            <div class="stat-label">Нейросетевые алгоритмы</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2v20M2 12h20"/>
+                                <circle cx="12" cy="12" r="4"/>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">Интеграция</div>
+                            <div class="stat-label">Любые камеры</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">Real-time</div>
+                            <div class="stat-label">Обработка в реальном времени</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">Приватность</div>
+                            <div class="stat-label">Защита данных</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Content Block -->
+            <div class="custom-content-block">
+                <!-- Здесь будет ваш кастомный контент -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget">
+        <button class="chat-toggle" id="chatToggle">
+            <svg class="chat-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            <svg class="chat-close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+        </button>
+
+        <div class="chat-container" id="chatContainer">
+            <div class="chat-header">
+                <div class="chat-header-info">
+                    <div class="chat-avatar">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                            <line x1="12" y1="22.08" x2="12" y2="12"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="chat-title">Виртуальный помощник</div>
+                        <div class="chat-status">Онлайн</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot-message">
+                    <div class="message-avatar">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                        </svg>
+                    </div>
+                    <div class="message-content">
+                        <div class="message-text">Здравствуйте! Я виртуальный помощник TrackVision. Задавайте любые вопросы о наших решениях для автоматизации видеоаналитики!</div>
+                        <div class="message-time">Только что</div>
+                    </div>
+                </div>
+
+                <div class="message bot-message">
+                    <div class="message-avatar">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                        </svg>
+                    </div>
+                    <div class="message-content">
+                        <div class="message-text">Например: "Как работает распознавание номеров?", "Какие камеры поддерживаются?", "Стоимость решений?"</div>
+                        <div class="message-time">Только что</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-input-container">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Введите ваш вопрос...">
+                <button class="chat-send" id="chatSend">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="22" y1="2" x2="11" y2="13"/>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="static/js/base.js?v1.0.2"></script>
+</body>
+</html>
