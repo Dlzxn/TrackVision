@@ -21,8 +21,29 @@ class SQLAlchemyUserRepository(AbstractUserRepository):
         )
         self.session.add(db_user)
         await self.session.flush()
+        await self.session.commit()
         user.id = db_user.id
         return user
+
+    async def get_by_email(self, email: str) -> Optional[DomainUser]:
+        query = select(UserORM).where(UserORM.email == email)
+        result = await self.session.execute(query)
+        user_orm = result.scalar_one_or_none()
+
+        if user_orm:
+            return self._to_domain(user_orm)
+        
+        return None
+
+    async def get_by_name(self, username: str) -> Optional[DomainUser]:
+        query = select(UserORM).where(UserORM.name == username)
+        result = await self.session.execute(query)
+        user_orm = result.scalar_one_or_none()
+
+        if user_orm:
+            return self._to_domain(user_orm)
+        
+        return None
 
     async def get_by_id(self, user_id: int) -> Optional[DomainUser]:
         """Get User by id"""
@@ -51,12 +72,14 @@ class SQLAlchemyUserRepository(AbstractUserRepository):
             )
         )
         await self.session.execute(stmt)
+        await self.session.commit()
         return user
 
     async def delete(self, user_id: int) -> None:
         """Delete User"""
         stmt = delete(UserORM).where(UserORM.id == user_id)
         await self.session.execute(stmt)
+        await self.session.commit()
 
     def _to_domain(self, orm_user: UserORM) -> DomainUser:
         """Convert User"""

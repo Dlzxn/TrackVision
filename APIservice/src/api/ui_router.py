@@ -7,4 +7,4 @@ ui = APIRouter(
 
 @ui.get("/registration")
 async def get_reg_templ():
-    FileResponse("ui/html/registration.html")
+    return FileResponse("ui/html/registration.html")

@@ -97,14 +97,38 @@ form.addEventListener('submit', (e) => {
         return;
     }
 
-    // Success animation
-    const submitBtn = document.querySelector('.submit-btn');
-    submitBtn.style.background = 'linear-gradient(135deg, #00ff88, #00cc66)';
-    submitBtn.innerHTML = '<span>✓ Регистрация успешна!</span>';
+    fetch('http://localhost:8000/auth/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            username: username,
+            email: email,
+            password: password
+        })
+    })
+    .then(response => {
+        return response.json().then(data => {
+            return {status: response.status, data: data};
+        });
+    })
+    .then(({status, data}) => {
+        if (status == 201) {
+            // Success animation
+            const submitBtn = document.querySelector('.submit-btn');
+            submitBtn.style.background = 'linear-gradient(135deg, #00ff88, #00cc66)';
+            submitBtn.innerHTML = '<span>✓ Регистрация успешна!</span>';
 
-    setTimeout(() => {
-        showNotification('Добро пожаловать в TrackVision!', 'success');
-    }, 500);
+            setTimeout(() => {
+                showNotification('Добро пожаловать в TrackVision!', 'success');
+            }, 500);
+        }
+        else if (status == 409) {
+            showNotification(data.detail.message, 'error');
+            return;
+        }
+    });
 });
 
 // Notification system
