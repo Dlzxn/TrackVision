@@ -1,5 +1,6 @@
-from fastapi import APIRouter, status
+from fastapi import APIRouter, Depends, status
 from fastapi.exceptions import HTTPException
+from fastapi.security import OAuth2PasswordRequestForm
 from dishka.integrations.fastapi import FromDishka, inject
 
 from src.api.models.user import UserRegistration
@@ -23,26 +24,14 @@ async def register(
     repo: FromDishka[AbstractUserRepository]
     ):
 
-    existing_email = await repo.get_by_email(user_reg.email)
+    existing_user = await repo.get_by_name(user_reg.username) or await repo.get_by_email(user_reg.email)
 
-    if existing_email is not None:
+    if existing_user is not None:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail={
                 'is_registered': False,
-                'message': 'Пользователь с таким email уже существует'
-            }
-        )
-    
-    
-    existing_name = await repo.get_by_name(user_reg.username)
-
-    if existing_name is not None:
-        raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
-            detail={
-                'is_registered': False,
-                'message': 'Пользователь с таким именем уже существует'
+                'message': 'Пользователь с таким именем или email уже существует'
             }
         )
 
