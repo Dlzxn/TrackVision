@@ -3,6 +3,60 @@
 // ======================
 document.addEventListener('DOMContentLoaded', function() {
 
+async function loadUserProfile() {
+    try {
+        const response = await fetch('/api/profile/info', {
+            method: 'GET',
+            credentials: 'include', // ВАЖНО: отправляем куки с запросом
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+        if (!response.ok) {
+            if (response.status === 401) {
+                window.location.href = "/ui/login";
+                return;
+            }
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const userData = await response.json();
+        console.log('Данные пользователя:', userData);
+        
+        // Обновляем UI с данными пользователя
+        updateProfileUI(userData);
+        
+    } catch (error) {
+        console.error('Ошибка при загрузке профиля:', error);
+        updateProfileUI(null);
+    }
+};
+
+function updateProfileUI(userData) {
+    // Находим элементы
+    const profileName = document.querySelector('.profile-name');
+    const dropdownName = document.querySelector('.dropdown-name');
+    const dropdownEmail = document.querySelector('.dropdown-email');
+
+    const displayName = userData.username;
+    if (profileName) {
+        profileName.textContent = displayName;
+    }
+    
+    // Обновляем данные в выпадающем меню
+    if (dropdownName) {
+        // Можно использовать full_name если есть, или username
+        dropdownName.textContent = displayName;
+    }
+    
+    if (dropdownEmail) {
+        dropdownEmail.textContent = userData.email;
+    }
+
+};
+
+loadUserProfile();
 // ======================
 // PARTICLE ANIMATION
 // ======================

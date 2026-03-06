@@ -111,6 +111,11 @@ form.addEventListener('submit', (e) => {
             setTimeout(() => {
                 showNotification('Добро пожаловать в TrackVision!', 'success');
             }, 500);
+            
+            setTimeout(() => {
+                window.location.href = "/";
+            }, 1000);
+
             return;
 
         }
