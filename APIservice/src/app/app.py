@@ -7,6 +7,7 @@ from dishka import make_async_container
 
 from src.api.ui_router import ui
 from src.api.api_auth_router import auth_router
+from src.api.api_profile_user import profile_router
 from src.ioc.providers import AppProvider
 from src.utils.get_env import get_db_url
 from src.app.lifespan import lifespan
@@ -30,6 +31,7 @@ def get_app():
 
     app.include_router(ui)
     app.include_router(auth_router)
+    app.include_router(profile_router)
 
     app.mount("/static", StaticFiles(directory="ui"), name="static")
 

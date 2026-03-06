@@ -77,7 +77,6 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
 
     const username = document.getElementById('username').value;
-    const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
     // Validation
@@ -91,14 +90,35 @@ form.addEventListener('submit', (e) => {
         return;
     }
 
-    // Success animation
-    const submitBtn = document.querySelector('.submit-btn');
-    submitBtn.style.background = 'linear-gradient(135deg, #00ff88, #00cc66)';
-    submitBtn.innerHTML = '<span>✓ Успешный вход!</span>';
+    const formData = new URLSearchParams();
+    formData.append('username', username);
+    formData.append('password', password);
 
-    setTimeout(() => {
-        showNotification('Добро пожаловать в TrackVision!', 'success');
-    }, 500);
+    fetch('/auth/token', {
+        method: 'POST',
+        body: formData
+    }).then(response => {
+        return response.json().then(data => {
+            return {status: response.status, data: data};
+        });
+    }).then(({status, data}) => {
+        if (status == 200) {
+            
+            const submitBtn = document.querySelector('.submit-btn');
+            submitBtn.style.background = 'linear-gradient(135deg, #00ff88, #00cc66)';
+            submitBtn.innerHTML = '<span>✓ Успешный вход!</span>';
+
+            setTimeout(() => {
+                showNotification('Добро пожаловать в TrackVision!', 'success');
+            }, 500);
+            return;
+
+        }
+        else {
+            showNotification(data.detail, 'error');
+            return;
+        };
+    });
 });
 
 // Notification system
