@@ -272,14 +272,18 @@ async function handleLogout() {
                 'Content-Type': 'application/json'
             }
         });
-
+        
+        const data = await response.json();
+        
         if (response.ok) {
             document.body.style.opacity = '0';
             document.body.style.transition = 'opacity 0.5s ease';
 
             setTimeout(() => {
-                window.location.href = '/login';
-            }, 500);
+                window.location.href = data.redirect;
+            }, 1000);
+        } else {
+            showNotification('Ошибка выхода', 'error');
         }
     } catch (error) {
         showNotification('Ошибка выхода', 'error');

@@ -26,7 +26,7 @@ async def register(
     if existing_user is not None:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail="Пользователь с таким именем или email уже существует"
+            detail="Пользователь с таким именем или email уже существует",
         )
 
     new_user = DomainUser(
@@ -42,8 +42,8 @@ async def register(
 
     return {
         "message": "Регистрация успешна",
-        'redirect': "/ui/login",
-        'user': user_reg.username
+        "redirect": "/ui/login",
+        "user": user_reg.username,
     }
 
 
@@ -61,29 +61,23 @@ async def login(
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail='Неверное имя пользователя или пароль'
+            detail="Неверное имя пользователя или пароль",
         )
 
-    access_token = create_access_token(
-        data={
-            'sub': user.username,
-            'email': user.email
-        }
-    )
+    access_token = create_access_token(data={"sub": user.username, "email": user.email})
 
     response.set_cookie(
-        key='access_token',
-        value=access_token,
-        max_age=432000,
-        httponly=True
+        key="access_token", value=access_token, max_age=432000, httponly=True
     )
-    
+
     return {
         "message": "Авторизация успешна",
         "redirect": "/",
-        "user": {
-            "username": user.username
-        }
+        "user": {"username": user.username},
     }
 
-    
+
+@auth_router.post("/logout", status_code=status.HTTP_200_OK)
+async def logout(response: Response):
+    response.delete_cookie("access_token")
+    return {"message": "Успешный выход из системы", "redirect": "/ui/login"}
