@@ -113,7 +113,7 @@ form.addEventListener('submit', (e) => {
             }, 500);
             
             setTimeout(() => {
-                window.location.href = "/";
+                window.location.href = data.redirect;
             }, 1000);
 
             return;

@@ -26,10 +26,7 @@ async def register(
     if existing_user is not None:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail={
-                "is_registered": False,
-                "message": "Пользователь с таким именем или email уже существует",
-            },
+            detail="Пользователь с таким именем или email уже существует"
         )
 
     new_user = DomainUser(
@@ -44,10 +41,9 @@ async def register(
     await repo.create(new_user)
 
     return {
-        "detail": {
-            "is_registered": True,
-            "message": "Пользователь успешно зарегистрирован",
-        }
+        "message": "Регистрация успешна",
+        'redirect': "/ui/login",
+        'user': user_reg.username
     }
 
 
@@ -82,6 +78,12 @@ async def login(
         httponly=True
     )
     
-    return {"message": "OK"}
+    return {
+        "message": "Авторизация успешна",
+        "redirect": "/",
+        "user": {
+            "username": user.username
+        }
+    }
 
     

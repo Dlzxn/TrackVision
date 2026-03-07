@@ -123,9 +123,13 @@ form.addEventListener('submit', (e) => {
             setTimeout(() => {
                 showNotification('Добро пожаловать в TrackVision!', 'success');
             }, 500);
+
+            setTimeout(() => {
+                window.location.href=data.redirect;
+            }, 500);
         }
         else if (status == 409) {
-            showNotification(data.detail.message, 'error');
+            showNotification(data.detail, 'error');
             return;
         }
     });
