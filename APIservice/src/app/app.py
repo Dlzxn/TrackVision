@@ -30,8 +30,8 @@ def get_app():
     setup_dishka(container, app)
 
     app.include_router(ui)
-    app.include_router(auth_router)
-    app.include_router(profile_router)
+    app.include_router(auth_router, prefix='/api')
+    app.include_router(profile_router, prefix='/api')
 
     app.mount("/static", StaticFiles(directory="ui"), name="static")
 

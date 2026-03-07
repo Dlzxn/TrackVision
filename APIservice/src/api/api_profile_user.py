@@ -4,7 +4,7 @@ from dependencies.auth_deps import get_active_current_user
 
 
 profile_router = APIRouter(
-    prefix='/api/profile',
+    prefix='/profile',
     tags=['profile']
 )
 

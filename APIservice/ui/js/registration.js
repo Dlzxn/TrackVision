@@ -97,7 +97,7 @@ form.addEventListener('submit', (e) => {
         return;
     }
 
-    fetch('/auth/register', {
+    fetch('/api/auth/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

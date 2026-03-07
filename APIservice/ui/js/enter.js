@@ -94,7 +94,7 @@ form.addEventListener('submit', (e) => {
     formData.append('username', username);
     formData.append('password', password);
 
-    fetch('/auth/token', {
+    fetch('/api/auth/token', {
         method: 'POST',
         body: formData
     }).then(response => {
