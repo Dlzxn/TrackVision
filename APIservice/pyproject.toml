@@ -12,6 +12,7 @@ dependencies = [
     "dotenv>=0.9.9",
     "fastapi[all]>=0.129.0",
     "passlib[argon2]>=1.7.4",
+    "pendulum>=3.2.0",
     "pyjwt>=2.11.0",
     "sqlalchemy>=2.0.46",
     "uvicorn>=0.41.0",

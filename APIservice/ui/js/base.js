@@ -429,6 +429,8 @@ async function sendMessage() {
     // Show typing indicator
     showTypingIndicator();
 
+    const typingDelay = Math.random() * 1000 + 500;
+
     // API call to chatbot
     try {
         const response = await fetch('/api/chat/message', {
@@ -445,15 +447,18 @@ async function sendMessage() {
         const data = await response.json();
 
         // Remove typing indicator
-        removeTypingIndicator();
+        setTimeout(() => {
+            removeTypingIndicator();
 
-        // Add bot response
-        if (data.response) {
-            addMessage(data.response, 'bot');
-        } else {
-            // Fallback responses
-            addMessage(getAutoResponse(message), 'bot');
-        }
+            if (data.response) {
+                addMessage(data.response, 'bot');
+            } else {
+                addMessage(getAutoResponse(message), 'bot');
+            }
+
+        }, typingDelay)
+
+
     } catch (error) {
         console.error('Chat error:', error);
         removeTypingIndicator();
