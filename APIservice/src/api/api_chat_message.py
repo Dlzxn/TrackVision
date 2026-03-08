@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from .models.message import ChatData
+from .models.chat import ChatData
 
 
 chat_message_router = APIRouter(
